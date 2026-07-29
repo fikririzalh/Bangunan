@@ -28,13 +28,12 @@
     <!-- Begin page -->
     <div id="app-layout">
 
-
         <!-- Topbar Start -->
-        @include('admin.body.header');
+        @include('admin.body.header')
         <!-- end Topbar -->
 
         <!-- Left Sidebar Start -->
-        @include('admin.body.sidebar');
+        @include('admin.body.sidebar')
         <!-- Left Sidebar End -->
 
         <!-- ============================================================== -->
@@ -62,7 +61,7 @@
     <script src="{{ asset('backend/assets/libs/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('backend/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('backend/assets/libs/simplebar/simplebar.min.js') }}"></script>
-    <script src="{{ asset('backend/ssets/libs/node-waves/waves.min.js') }}a"></script>
+    <script src="{{ asset('backend/assets/libs/node-waves/waves.min.js') }}"></script>
     <script src="{{ asset('backend/assets/libs/waypoints/lib/jquery.waypoints.min.js') }}"></script>
     <script src="{{ asset('backend/assets/libs/jquery.counterup/jquery.counterup.min.js') }}"></script>
     <script src="{{ asset('backend/assets/libs/feather-icons/feather.min.js') }}"></script>
