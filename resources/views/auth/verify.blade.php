@@ -1,19 +1,10 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html lang="en">
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+<head>
 
-<<<<<<< Updated upstream
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-=======
     <meta charset="utf-8" />
-    <title>Log In Page</title>
+    <title>Verification Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc." />
     <meta name="author" content="Zoyothemes" />
@@ -46,8 +37,29 @@
                                 </div>
 
                                 <div class="pt-0">
+
+                                @if (session('status'))
+                                <div class="alert alert-success">
+                                    {{ session('status') }}
+                                </div>
+                                
+                                @endif   
+                                
+                                @if ($errors->any())
+                                <div class="alert alert-danger mt-3">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                        <li>{$error}</li>
+                                        
+                                        @endforeach
+                                    </ul>
+                                </div>
+                    
+                                
+                                @endif
+
                                     <!--  -->
-                                    <form method="POST" action="{{ route('admin.login') }}" class="my-4">
+                                    <form method="POST" action="{{ route('custom.verification.verify') }}" class="my-4">
                                         @csrf
 
                                         <!--  -->
@@ -60,24 +72,16 @@
 
                                         <div class="form-group mb-3">
 
-                                            <label for="emailaddress" class="form-label">Email address</label>
-                                            <input class="form-control" type="email" id="email" name="email" required="" placeholder="Enter your email">
+                                            <label for="emailaddress" class="form-label">Verification Code</label>
+                                            <input class="form-control" type="text" id="code" name="code" required="" placeholder="Enter your code">
 
-                                            @error('email')
+                                            @error('code')
                                             <small class="text-danger">{{ $message }}</small>
                                             @enderror
 
                                         </div>
 
-                                        <div class="form-group mb-3">
-                                            <label for="password" class="form-label">Password</label>
-                                            <input class="form-control" type="password" name="password" required="" id="password" placeholder="Enter your password">
-
-                                            @error('password')
-                                            <small class="text-danger">{{ $message }}</small>
-                                            @enderror
-
-                                        </div>
+                                        
 
                                         <div class="form-group d-flex mb-3">
 
@@ -86,7 +90,7 @@
                                         <div class="form-group mb-0 row">
                                             <div class="col-12">
                                                 <div class="d-grid">
-                                                    <button class="btn btn-primary" type="submit"> Log In </button>
+                                                    <button class="btn btn-primary" type="submit"> Verify </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -147,39 +151,23 @@
                     </div>
                 </div>
             </div>
->>>>>>> Stashed changes
         </div>
+    </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+    <!-- END wrapper -->
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+    <!-- Vendor -->
+    <script src="{{ asset('backend/assets/libs/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/libs/node-waves/waves.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/libs/waypoints/lib/jquery.waypoints.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/libs/jquery.counterup/jquery.counterup.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/libs/feather-icons/feather.min.js') }}"></script>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+    <!-- App js-->
+    <script src="{{ asset('backend/assets/js/app.js') }}"></script>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+</body>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+</html>
