@@ -27,3 +27,11 @@ Route::post('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin
 Route::get('/verify', [AdminController::class, 'ShowVerification'])->name('custom.verification.form');
 
 Route::post('/verify', [AdminController::class, 'VerificationVerify'])->name('custom.verification.verify');
+
+// Gunakan prefix /admin/profile agar tidak bentrok
+Route::middleware('auth')->group(function () {
+    
+Route::get('/admin/profile', [AdminController::class, 'AdminProfile'])
+    ->middleware(['auth'])
+    ->name('admin.profile');
+    });

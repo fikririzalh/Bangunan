@@ -70,4 +70,11 @@ class AdminController extends Controller
     }
 
     // End Method
+
+
+    public function AdminProfile() {
+        return view('admin.admin_profile');
+    }
+
+    // End Method
 }
