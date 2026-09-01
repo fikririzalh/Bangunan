@@ -37,4 +37,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/admin/profile/store', [AdminController::class, 'ProfileStore'])
         ->name('profile.store');
+
+    
+    Route::post('/admin/password/update', [AdminController::class, 'PasswordUpdate'])
+        ->name('admin.password.update');
 });
