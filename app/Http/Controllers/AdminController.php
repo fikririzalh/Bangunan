@@ -1,18 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-//use App\Http\Controllers\auth;
 
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-use Illuminate\Support\Facades\Mail;
+// use App\Http\Controllers\auth;
+
 use App\Mail\VerificationCodeEmail;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
-
-
-
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
@@ -52,19 +50,22 @@ class AdminController extends Controller
 
     // End Method
 
-    public function ShowVerification() {
+    public function ShowVerification()
+    {
         return view('auth.verify');
     }
 
     // End Method
 
-    public function VerificationVerify(Request $request) {
+    public function VerificationVerify(Request $request)
+    {
         $request->validate(['code' => 'required|numeric']);
 
-        if($request -> code == session('verification_code')) {
+        if ($request->code == session('verification_code')) {
             Auth::loginUsingId(session('user_id'));
 
             session()->forget(['verification_code', 'user_id']);
+
             return redirect()->intended('/dashboard');
         }
 
@@ -73,25 +74,24 @@ class AdminController extends Controller
 
     // End Method
 
-
-    public function AdminProfile() {
+    public function AdminProfile()
+    {
         $id = Auth::user()->id;
-        $profileData = User::find($id); //penambahan $id
+        $profileData = User::find($id); // penambahan $id
+
         return view('admin.admin_profile', compact('profileData'));
-        
+
     }
 
     // End Method\
 
-    
-
-
-    public function ProfileStore(Request $request) {
+    public function ProfileStore(Request $request)
+    {
 
         $id = Auth::user()->id;
         $data = User::find($id);
 
-                $validated = $request->validate([
+        $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($id)],
             'phone' => ['nullable', 'string', 'max:20'],
@@ -104,7 +104,7 @@ class AdminController extends Controller
         $data->phone = $validated['phone'] ?? null;
         $data->address = $validated['address'] ?? null;
 
-        $oldPhotoPath  = $data->photo;
+        $oldPhotoPath = $data->photo;
 
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
@@ -113,74 +113,65 @@ class AdminController extends Controller
             $file->move(public_path('upload/user_images'), $filename);
             $data->photo = $filename;
 
-            if($oldPhotoPath && $oldPhotoPath !== $filename) {
+            if ($oldPhotoPath && $oldPhotoPath !== $filename) {
                 $this->deleteOldImage($oldPhotoPath);
             }
-        } 
+        }
 
         $data->save();
 
-        $notification = array(
-            'message'=>'Profile Updated Successfully',
-            'alert-type'=> 'success'
-        );
+        $notification = [
+            'message' => 'Profile Updated Successfully',
+            'alert-type' => 'success',
+        ];
 
         return redirect()->back()->with($notification);
-        
+
     }
-    
+
     // End Method
 
-    private function deleteOldImage(string  $oldPhotoPath): void {
-        $fullPath = public_path('upload/user_images/'. $oldPhotoPath);
-        if (file_exists($fullPath)){
+    private function deleteOldImage(string $oldPhotoPath): void
+    {
+        $fullPath = public_path('upload/user_images/'.$oldPhotoPath);
+        if (file_exists($fullPath)) {
             unlink($fullPath);
         }
     }
 
-    public function PasswordUpdate(Request $request){
+    public function PasswordUpdate(Request $request)
+    {
         $user = Auth::user();
         $request->validate([
-            'old_password'=>'required',
-            'new_password'=>'required|confirmed'
+            'old_password' => 'required',
+            'new_password' => 'required|confirmed',
         ]);
 
-        if(!Hash::check($request->old_password,$user->password)){
-            $notification = array(
-                'message'=>'Old Password does not match!',
-                'alert-type'=>'error'
-            );
+        if (! Hash::check($request->old_password, $user->password)) {
+            $notification = [
+                'message' => 'Old Password does not match!',
+                'alert-type' => 'error',
+            ];
 
             return back()->with($notification);
 
         }
 
         User::whereId($user->id)->update([
-            'password'=>Hash::make($request->new_password)
+            'password' => Hash::make($request->new_password),
         ]);
 
         Auth::logout();
 
-        $notification = array(
-            'message'=>'Password Updated Successfully',
-            'alert-type'=> 'success'
-        );
+        $notification = [
+            'message' => 'Password Updated Successfully',
+            'alert-type' => 'success',
+        ];
 
         return redirect()->route('login')->with($notification);
 
-
     }
 
-       // End Private Method
+    // End Private Method
 
-    
-
-
-
-
-
-
-
-    
-    
     }
