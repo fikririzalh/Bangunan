@@ -49,35 +49,51 @@
                                                     <div class="form-group mb-3 row">
                                                         <label class="form-label">Name</label>
                                                         <div class="col-lg-12 col-xl-12">
-                                                            <input class="form-control" type="text" name="name" value="{{ $profileData->name }}">
+                                                            @error('name')
+                                                                <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+                                                            <input class="form-control @error('name') is-invalid @enderror" type="text" name="name" value="{{ old('name', $profileData->name) }}">
+                                                            
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group mb-3 row">
                                                         <label class="form-label">Email</label>
                                                         <div class="col-lg-12 col-xl-12">
-                                                            <input class="form-control" type="email" name="email" value="{{ $profileData->email }}">
+                                                            @error('email')
+                                                                <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+                                                            <input class="form-control @error('email') is-invalid @enderror" type="email" name="email" value="{{ old('email', $profileData->email) }}">
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group mb-3 row">
                                                         <label class="form-label">Phone</label>
                                                         <div class="col-lg-12 col-xl-12">
-                                                            <input class="form-control" type="text" name="phone" value="{{ $profileData->phone }}">
+                                                            @error('phone')
+                                                                <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+                                                            <input class="form-control @error('phone') is-invalid @enderror" type="text" name="phone" value="{{ old('phone', $profileData->phone) }}">
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group mb-3 row">
                                                         <label class="form-label">Address</label>
                                                         <div class="col-lg-12 col-xl-12">
-                                                            <textarea name="address" class="form-control">{{ $profileData->address }}</textarea>
+                                                            @error('address')
+                                                                <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+                                                            <textarea name="address" class="form-control @error('address') is-invalid @enderror">{{ old('address', $profileData->address) }}</textarea>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group mb-3 row">
                                                         <label class="form-label">Profile Photo</label>
                                                         <div class="col-lg-12 col-xl-12">
-                                                            <input class="form-control" type="file" name="photo" id="image">
+                                                            @error('photo')
+                                                                <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+                                                            <input class="form-control @error('photo') is-invalid @enderror" type="file" name="photo" id="image" accept=".jpg,.jpeg,.png,.webp">
                                                         </div>
                                                     </div>
 

@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerificationCodeEmail;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 
 
@@ -90,16 +91,25 @@ class AdminController extends Controller
         $id = Auth::user()->id;
         $data = User::find($id);
 
-        $data->name = $request->name;
-        $data->email = $request->email;
-        $data->phone = $request->phone;
-        $data->address = $request->address;
+                $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($id)],
+            'phone' => ['nullable', 'string', 'max:20'],
+            'address' => ['nullable', 'string', 'max:500'],
+            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+        ]);
+
+        $data->name = $validated['name'];
+        $data->email = $validated['email'];
+        $data->phone = $validated['phone'] ?? null;
+        $data->address = $validated['address'] ?? null;
 
         $oldPhotoPath  = $data->photo;
 
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
-            $filename = time().'.'.$file->getClientOriginalExtension();
+            // Nama file dibuat server (acak + ekstensi dari isi file), bukan dari nama kiriman pengguna.
+            $filename = $file->hashName();
             $file->move(public_path('upload/user_images'), $filename);
             $data->photo = $filename;
 
