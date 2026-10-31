@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,11 +18,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
-Route::get('/admin/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
+Route::post('/admin/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
 Route::post('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');
-
 
 Route::get('/verify', [AdminController::class, 'ShowVerification'])->name('custom.verification.form');
 
@@ -38,7 +37,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/profile/store', [AdminController::class, 'ProfileStore'])
         ->name('profile.store');
 
-    
     Route::post('/admin/password/update', [AdminController::class, 'PasswordUpdate'])
         ->name('admin.password.update');
 });

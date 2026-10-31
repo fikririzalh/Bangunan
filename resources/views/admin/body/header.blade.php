@@ -107,8 +107,8 @@
                 <li class="dropdown notification-list topbar-dropdown">
                     <a class="nav-link dropdown-toggle nav-user me-0" data-bs-toggle="dropdown" href="#" role="button"
                         aria-haspopup="false" aria-expanded="false">
-                        <img src="{{ (!empty($profileData->photo)) ? url('upload/user_images/' . $profileData->photo) : url('upload/no_image.jpg') }}" alt="user-image"
-                            class="rounded-circle">
+                        <img src="{{ (!empty($profileData->photo)) ? url('upload/user_images/' . $profileData->photo) : url('upload/no_image.jpg') }}"
+                            alt="user-image" class="rounded-circle">
                         <span class="pro-user-name ms-1">
                             {{$profileData->name}} <i class="mdi mdi-chevron-down"></i>
                         </span>
@@ -134,10 +134,13 @@
                         <div class="dropdown-divider"></div>
 
                         <!-- item-->
-                        <a href="{{ route('admin.logout') }}" class="dropdown-item notify-item">
-                            <i class="mdi mdi-location-exit fs-16 align-middle"></i>
-                            <span>Logout</span>
-                        </a>
+                        <form method="POST" action="{{ route('admin.logout') }}">
+                            @csrf
+                            <button type="submit" class="dropdown-item notify-item">
+                                <i class="mdi mdi-location-exit fs-16 align-middle"></i>
+                                <span>Logout</span>
+                            </button>
+                        </form>
 
                     </div>
                 </li>

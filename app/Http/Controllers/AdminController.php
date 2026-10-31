@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 // use App\Http\Controllers\auth;
 
+use Illuminate\Validation\Rules\Password;
 use App\Mail\VerificationCodeEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -80,7 +81,6 @@ class AdminController extends Controller
         $profileData = User::find($id); // penambahan $id
 
         return view('admin.admin_profile', compact('profileData'));
-
     }
 
     // End Method\
@@ -126,14 +126,13 @@ class AdminController extends Controller
         ];
 
         return redirect()->back()->with($notification);
-
     }
 
     // End Method
 
     private function deleteOldImage(string $oldPhotoPath): void
     {
-        $fullPath = public_path('upload/user_images/'.$oldPhotoPath);
+        $fullPath = public_path('upload/user_images/' . $oldPhotoPath);
         if (file_exists($fullPath)) {
             unlink($fullPath);
         }
@@ -144,7 +143,7 @@ class AdminController extends Controller
         $user = Auth::user();
         $request->validate([
             'old_password' => 'required',
-            'new_password' => 'required|confirmed',
+            'new_password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
         if (! Hash::check($request->old_password, $user->password)) {
@@ -154,7 +153,6 @@ class AdminController extends Controller
             ];
 
             return back()->with($notification);
-
         }
 
         User::whereId($user->id)->update([
@@ -169,9 +167,8 @@ class AdminController extends Controller
         ];
 
         return redirect()->route('login')->with($notification);
-
     }
 
     // End Private Method
 
-    }
+}
