@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 // use App\Http\Controllers\auth;
 
-use Illuminate\Validation\Rules\Password;
 use App\Mail\VerificationCodeEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 class AdminController extends Controller
 {
@@ -132,7 +132,7 @@ class AdminController extends Controller
 
     private function deleteOldImage(string $oldPhotoPath): void
     {
-        $fullPath = public_path('upload/user_images/' . $oldPhotoPath);
+        $fullPath = public_path('upload/user_images/'.$oldPhotoPath);
         if (file_exists($fullPath)) {
             unlink($fullPath);
         }
