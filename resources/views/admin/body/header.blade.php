@@ -100,8 +100,7 @@
                 </li>
 
                 @php
-                    $id = Auth::user()->id;
-                    $profileData = App\Models\User::find($id);
+                    $profileData = Auth::user();
                 @endphp
 
                 <li class="dropdown notification-list topbar-dropdown">
