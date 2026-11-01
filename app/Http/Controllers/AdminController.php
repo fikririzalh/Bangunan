@@ -77,8 +77,7 @@ class AdminController extends Controller
 
     public function AdminProfile()
     {
-        $id = Auth::user()->id;
-        $profileData = User::find($id); // penambahan $id
+        $profileData = Auth::user();
 
         return view('admin.admin_profile', compact('profileData'));
     }
@@ -132,7 +131,7 @@ class AdminController extends Controller
 
     private function deleteOldImage(string $oldPhotoPath): void
     {
-        $fullPath = public_path('upload/user_images/'.$oldPhotoPath);
+        $fullPath = public_path('upload/user_images/' . $oldPhotoPath);
         if (file_exists($fullPath)) {
             unlink($fullPath);
         }
